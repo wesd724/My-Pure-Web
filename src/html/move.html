@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link href="../css/move.css" type="text/css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>이동화면</title>
+    <script>
+        document.write("<h2>안녕</h2>");
+    </script>
+</head>
+<body>
+    <h1 style="margin-left: 400px; margin-right: 20px"><mark><ins><b><i>웹 폼</i></b></ins></mark></h1>
+    <div style="background-color: rgb(15, 194, 170); color: black">
+        <form action="js basic.html">
+            <button type="submit"><b>이동</b></button>
+        </form>
+    </div>
+    <br>
+<h2>글자 색 입력</h2>
+<hr><hr>
+<!--색 입력-->
+    <form>
+        색선택 <input type="color" value="#000000"
+        onchange="document.body.style.color=this.value">
+    </form>
+    <br><br>
+<!---------->
+<h3>데이터 목록</h3>
+<hr>
+<!-- 데이터 목록-->
+<form>
+구 종류: <input type="text" list="seoul"><br>
+<datalist id="seoul">
+    <option value="도봉구"></option>
+    <option value="노원구"></option>
+    <option value="강북구"></option>
+</datalist>
+</form>
+<br><br>
+<!---------------->
+<h3>버튼</h3>
+<hr>
+<!--버튼-->
+<form action="../../index.html">
+    단순 버튼: <input type="button" value="단순1">
+              <button type="button">단순2</button><br>
+    submit 버튼: <input type="submit" value="전송1">
+                <button type="submit">전송2</button><br>
+    리셋 버튼: <input type="reset" value="리셋1">
+                <button type="reset">리셋2</button><br>
+</form>
+<br><br>
+<!-------->
+<h3>체크박스</h3>
+<hr>
+<!--체크박스-->
+<form>
+    치킨 <input type="checkbox" value="1" checked>
+    계란 <input type="checkbox" value="2">
+    두부 <input type="checkbox" value="3">
+</form>
+<br><br>
+<!------------>
+<h3>라디오 버튼</h3>
+<hr>
+<!--라디오 버튼-->
+<form>
+    <input type="radio" name="lan" value="1"> c언어
+    <input type="radio" name="lan" value="2" > c++
+    <input type="radio" name="lan" value="3" > 자바
+    <input type="radio" name="lan" value="4" > c#
+    <input type="radio" name="lan" value="5"> 파이썬
+    <input type="radio" name="lan" value="6"> 자바스크립트
+</form>
+<br><br>
+<!-------------->
+<h3>콤보박스</h3>
+<hr>
+<!--콤보박스-->
+<form>
+    <select name="나라" size="1">
+        <option value="1">한국</option>
+        <option value="2">중국</option>
+        <option value="3">일본</option>
+        <option value="4">미국</option>
+        <option value="5">프랑스</option>
+        <option value="6">스페인</option>
+        <option value="7">영국</option>
+        <option value="8">독일</option>
+    </select>
+</form>
+<br><br>
+<!-------------->
+<h3>시간 정보 입력</h3>
+<hr>
+<!-- 시간정보입력-->
+<form>
+data: <input type="date" value=""><br>
+time: <input type="time" value=""><br>
+local: <input type="datetime-local" value=""><br>
+</form>
+<br><br>
+<!---------------->
+<h3>스핀버튼과 슬라이드바로 편리한 숫자 입력</h3>
+<hr>
+<!--스핀버튼과 슬라이드바로 편리한 숫자 입력-->
+<form>
+    값: <input type="number" min="0.0" max="100.0"
+    step="1.0"><br><br>
+    값 슬라이드: 10 <input type="range" min="10" max="90" step="5"> 90
+</form>
+<br><br>
+<!---------------->
+<h3>형식을 가진 텍스트 입력</h3>
+<hr>
+<!--형식을 가진 텍스트 입력-->
+<form>
+    이메일 주소:<input type="email" placeholder="이메일 형식"><br>
+    홈페이지:<input type="url" placeholder="http://"><br>
+    전화번호:<input type="tel" placeholder="010-1234-5678"><br>
+    검색어:<input type="search" placeholder="검색어"><br>
+</form>
+<br><br>
+<!---------------->
+<h3>그룹 핑</h3>
+<hr>
+<!--그룹 핑-->
+<form>
+    <fieldset style="color:blue">
+        <legend>정규범</legend>
+        나이: 20<br>
+        사는 곳: 방학동<br>
+    </fieldset>
+</form>
+<br><br>
+<!---------------->
+<h1 style="margin-left: 400px"><i>웹 폼 끝</i></h1>
+<hr><hr><hr>
+<br><br>
+이것이 <mark>시맨틱이다</mark><br>
+내가 프로그래밍에 관심갖게 된 날짜는 <time>2019년 1월 10일</time><br>
+흥미도 <meter value="0.75"></meter><br>
+목표달성(11%) <progress value="10" max="100"></progress><br>
+</body>
+</html>

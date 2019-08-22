@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<script>
+    window.onload = function() {
+        var nowdate = document.getElementById("date");
+        var setTime = document.getElementById("sTime");
+        var DefaultColor = document.getElementById("DeCo");
+        var ThisColor = document.getElementById("ThCo");
+        var NowDateAndTime = document.getElementById("now");
+        nowdate.onclick = date;
+        setTime.onclick = sTimeout;
+        DefaultColor.onmouseover = over;
+        DefaultColor.onmouseout = out;
+        ThisColor.onmouseover = function () {
+            this.style.color = "blue";
+        }
+        ThisColor.onmouseout = function () {
+            this.style.color = "green";
+        }
+        NowDateAndTime.onmouseover = function () {
+            var Da = new Date();
+            console.log("오늘 날짜는 " + Da.toLocaleDateString() + " 입니다.");
+        }
+        NowDateAndTime.onmouseout = outime;
+
+        function over() {
+            DefaultColor.style.backgroundColor = "yellow";
+            DefaultColor.style.color = "blue";
+        }
+        function out() {
+            DefaultColor.style.backgroundColor = "blue";
+            DefaultColor.style.color = "yellow";
+        }
+    };
+
+    function date() {
+    var d = new Date();
+    console.log("시간: " + d.toLocaleString());
+    }
+    function sTimeout() {
+       var date = new Date();
+       setTimeout(function() {
+            console.log(date);
+            }, 1000);
+    }
+    function outime() {
+        var ti = new Date();
+        console.log("현재 시간은 " + ti.toLocaleTimeString() + " 입니다.");
+    }
+</script>
+</head>
+<body>
+    <button type="button" id="date">시작</button><br>
+    <button type="button" id="sTime">지정시간</button><br>
+    <h3 id="DeCo">마우스올리면 색깔변경</h3><br>
+    <h3 id="ThCo">마우스올리면 this색깔변경</h3><br>
+    <div style="background-color: blueviolet"><h2 id="now">마우스올리면 콘솔에 날짜와 시간 뜸</h2></div>
+</body>
+</html>

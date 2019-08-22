@@ -1,0 +1,32 @@
+.first {                       /* class셀렉터로 전환 */
+    transition : font-size 3s;          
+}
+
+.first:hover {
+    font-size: 300%;
+} 
+ 
+
+#second {                       /* #셀렉터로 전환 */
+    transition : background-color 2s;
+}
+#second:hover {
+    background-color: yellow;
+}
+
+
+/*애니메이션*/
+@keyframes animation {
+    0% {color : red; background-color: darkblue}
+    20% {color : orange; background-color: blue}
+    40% {color : yellow; background-color: green}
+    60% {color : green; background-color: yellow}
+    80% {color : blue; background-color: orange}
+    100% {color : darkblue; background-color: red}
+}
+.anima {
+    animation-name : animation;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+

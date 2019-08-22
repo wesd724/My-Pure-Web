@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    </head>
+    <body>
+        <h1 style="color : rgb(107, 39, 170)">자바 스크립트</h1><hr>
+        <script src="../js/js basic.js"></script>
+        <script>
+             var x=5, y=3;
+             var ps = x + y;
+             number = 1;
+             document.write("x+y="+ ps + "<br>");
+             while(number<=5)
+             {
+                 document.write(number + "<br>");
+                 number++;
+             }
+             //new Object()
+             document.write("<i style=\"color : darkblue\">" + "제 이름은 " + "</i>" + obj.me + "<br>");
+             document.write("제 나이는 " + obj.age + "<br>");
+             document.write("제가 사는곳은 " + obj.live + "<br>");
+             document.write("5,6을 곱하면 " + obj.multi(5,6) + "<br>");
+             document.write("1부터 100까지 더하면 " + obj.sigma(1,100) + "<br><br>");
+             //리터럴 표기법
+             document.write("제가 지금 하고 있는 언어는 " + newobj.lang + "<br>");
+             document.write("제가 지금 쓰고 있는 에디터는 " + newobj.edit + "<br>");
+             document.write("저의 목표는 " + newobj.goal + " 만들기<br>");
+             document.write("구구단 5단,단" +"<br>");
+             obj.newmul(5);
+             document.write("<br>");
+             god.gugudan(7);
+             document.write("<br>");
+             document.write("지금은" + god.year + "년" + "<br>" + "<br>");
+             //프로토타입
+             document.write("<div style=\"background-color: rgb(82, 161, 82); color: yellow; font-size: 25px;\">");
+             document.write("너의 별은 " + jung.star + "," + " " + "나라는 " + jung.country + "," + " " + "도시는 " + jung.city + "," + " " + "나이가 " + jung.age + "살이니까 " + jung.getage() + "<br>" + "</div>" + "<br>");
+             document.write(" <div style=\"background-color: rgb(190, 19, 139); color: rgb(59, 2, 40); font-size: 25px;\">");
+             document.write("너의 별은 " + kue.star + "," + " " + "나라는 " + kue.country + "," + " " + "도시는 " + kue.city + "," + " " + "나이가 " + kue.age + "살이니까 " + kue.getage() + "<br>" + "</div>" + "<br>");
+             document.write("<div style=\"background-color: skyblue; color: rgb(51, 24, 202); font-size: 25px;\">");
+             document.write("너의 별은 " + beom.star + "," + " " + "나라는 " + beom.country + "," + " " + "도시는 " + beom.city + "," + " " + "나이가 " + beom.age + "살이니까 " + beom.getage() + "<br>" + "</div>" + "<br>");
+        </script>
+            <form action="../../index.html">
+                <button type="submit"><b>index 이동</b></button>
+            </form>
+            <form action="../html/DOM.html">
+                <button type="submit"><b>DOM 이동</b></button>
+            </form>
+    </body>
+</html>
