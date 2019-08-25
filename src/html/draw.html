@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+<head>
+<script>
+    function real(n,x,y) {
+        var one = sub(n,x,y);
+        for(var i = 0; i < n; i++) {
+            document.write("one[" + i +
+             "] = { X:" + one[i].X + ", Y:" + one[i].Y + " }"
+              + "<br>");
+        }
+    }
+
+    function sub(n,x,y) {
+        var points = [];
+        for(var i = 0; i < n; i++,x++,y++) {
+            // for( ; x < n; x++) {
+            //     for( ; y < n; y++) {
+                    points[i] = { X: x, Y: y};
+                }
+        return points;
+    }
+    real(100, 0, 0);
+</script>
+</head>
+<body>
+    
+</body>
+</html>
