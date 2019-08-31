@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+<head>
+<script>
+
+    window.onload = function() {
+        var cc = document.getElementById("ChangeColor");
+        cc.onclick = ChangeColor;
+        function ChangeColor() {
+            cc.style.backgroundColor = "green";
+        }
+
+        var btnClick = document.getElementById("btn");
+        btnClick.onclick = function () {
+            if(btnClick.innerHTML == "변경 전") {
+                btnClick.innerHTML = "변경 완료!";
+            } else if(btnClick.innerHTML == "변경 완료!") {
+                btnClick.innerHTML = "변경 전";
+            }
+        };
+        //////////////////////////////////
+        var abc = document.getElementById("qwe");
+        abc.addEventListener("click", click, false);
+        function click(e) {
+            abc.style.backgroundColor = "yellow";
+        };
+
+        var def = document.getElementById("asd");
+        def.addEventListener("click", function() {
+            def.style.backgroundColor = "darkblue";
+        }, false);
+        ///////////////////////////////////
+    }
+
+    function changeColor (a) {
+        a.style.backgroundColor = "blue";
+    }
+
+    function inner(b) {
+        b.innerHTML = "변경완료";
+    }
+
+    function ih() {
+        var html = document.getElementById("ida");
+        html.innerHTML = "변경 완료";
+    }
+
+</script>
+</head>
+<body>
+    <h3 onclick="changeColor(this);">HTML 요소의 이벤트 처리기 속성 설정</h3>
+    <h3 id="ChangeColor">DOM 요소 객체의 이벤트 처리기 프로퍼티에 설정</h3>
+    <h3 id="qwe">addEventListener 메서드를 사용하는 방법</h3>
+    <h3 id="asd">addEventListener 메서드를 사용하는 방법</h3>
+    <button type="button" onclick="inner(this)">변경 전</button>
+    <button type="button" id="ida" onclick="ih();">변경 전</button>
+    <button type="button" id="btn">변경 전</button>
+</body>
+</html>
