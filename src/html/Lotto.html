@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>
+    window.onload = function() {
+        var number = 0;
+        var lottoN = [];
+        var lotto = document.getElementById("num");
+        lotto.onclick = function () {
+            var lottoNumber = document.getElementById("lotto");
+            var bonusNumber = document.getElementById("bonus");
+
+            while(number < 6) {
+                var randomNumber = Math.floor(Math.random() * 46) + 1;
+                lottoN[number] = randomNumber;
+                number++;
+            }
+
+            lottoNumber.value = lottoN[0] + ', ' + lottoN[1] + ', ' + lottoN[2]
+                         + ', ' + lottoN[3] + ', ' + lottoN[4] + ', ' + lottoN[5];
+            bonusNumber.value = Math.floor(Math.random() * 46) + 1;
+        };
+    };
+</script>
+</head>
+<body>
+    <div>로또 번호: <input type="text" size="15" id="lotto"></div>
+    <div>보너스 번호: <input type="text" size="10" id="bonus"></div>
+    <button type="button" id="num">로또 출력</button>
+</body>
+</html>

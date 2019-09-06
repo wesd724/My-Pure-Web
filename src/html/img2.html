@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body onload="n()">
+    <input type="button" value="수동이동" onclick="moving()">
+    <input id="asd" type="button" value="자동이동" onclick="movingAuto()">
+    <input type="button" value="자동멈춤" onclick="stopAuto()">
+    <img id="IMAGE" src="../img/mov.jpg" style="position: absolute; top: 100px; left: 10px">
+    
+    <script> 
+        var x = 10;
+        var step = 100;
+        var st;
+        var b;
+        var a;
+        function n() {  
+        a = document.getElementById("IMAGE");
+        b = document.getElementById("asd");
+        }
+        function moving() {
+            x += step;
+            a.style.left = x + "px";
+        }
+   
+        function movingAuto() {
+            st = setInterval(moving, 1000);
+            b.disabled = true;
+        }
+        function stopAuto() {
+            clearInterval(st);
+            b.disabled = false;    
+        }
+        console.log(document.getElementById("IMAGE").style.left);
+        var msg = "안녕하세요";
+        let aq = msg.charAt(5);
+        console.log(aq);
+       
+        
+    </script>
+
+</body>
+</html>

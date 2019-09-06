@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>this Test</title>
+    <script>
+        function thisPractice(x,y,RandomF,RandomS) {
+            this.x = x;
+            this.y = y;
+            this.randomF = RandomF;
+            this.randomS = RandomS;
+        }
+        
+        // function thisPractice(x,y) {
+        //     this.x = x;
+        //     this.y = y;
+        // }
+        // this.randomF, thisrandomS는 프로토타입으로 프로퍼티를
+        // 생성하기 때문에 없어도 된다.
+
+        thisPractice.prototype = {
+            RandomFirst: function(n,m) {
+                this.randomF = n + Math.floor(Math.random() * (m - n));
+                return this;
+            },
+            RandomSecond: function(b,a) {
+                this.randomS = b + Math.floor(Math.random() * (a - b));
+                return this;
+            },
+            NumberVariable: 79
+        };
+
+        var defultLiteral = {firstParameter : 50, secondParameter: 77};
+        var ResultFinal = [];
+        for(var i = 0; i < 2; i++) {
+            ResultFinal[i] = new thisPractice(defultLiteral.firstParameter, defultLiteral.secondParameter);
+            ResultFinal[i].RandomFirst(1,10).RandomSecond(51,60);
+        }
+
+        let array_F = ResultFinal[0];
+        let array_S = ResultFinal[1];
+
+        console.log(array_F);
+        console.log(array_S);
+        console.log(ResultFinal);
+        var testa = new thisPractice(3,8,5,7);
+        console.log(testa);
+        console.log(testa.NumberVariable);
+
+    </script>
+</head>
+<body>
+</body>
+</html>

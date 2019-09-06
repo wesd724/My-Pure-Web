@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+<head>
+</head>
+<body>
+    <canvas id="photo" width="1280" height="720" style="background-color: white"></canvas>
+    <input type="button" value="이동" onclick="draw()">
+    <script>
+        
+        const canvas = document.getElementById("photo");
+        const ctx = canvas.getContext("2d");
+        
+        var x = canvas.width/2;
+        var y = canvas.height/2;
+        var dx = 11;
+        var dy = 10;
+
+        var img = new Image();
+        img.src = '../img/mov.jpg';
+        img.onload = function() {
+            ctx.drawImage(img, x, y);
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width,canvas.height);
+            ctx.drawImage(img, x, y);
+            x += dx;
+            y += dy;
+        }
+    </script>
+</body>
+</html>
