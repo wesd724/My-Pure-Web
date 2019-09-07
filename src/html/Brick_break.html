@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Moving Ball</title>
+</head>
+<body>
+    <canvas id="cvs" width="800" height="800" style="background-color: #C9FFF2"></canvas>
+<script>
+    var canvas = document.getElementById("cvs");
+    ctx = canvas.getContext("2d");
+   
+    var leftPressed = false;
+    var rightPressed = false; 
+    var score = 0;
+    var ballSetting = {
+        x: canvas.width / 2,
+        y: canvas.height - 30,
+        dx: 2,
+        dy: -2,
+        radius: 10,
+    }
+    var padSetting = {
+        height: 10,
+        width: 75,
+        x: (canvas.width - 75) / 2,
+    }
+    var brickSetting = {
+        Row: 1,
+        Column: 2,
+        Width: 75,
+        Height: 20,
+        Padding: 10,
+        OffsetTop: 30,
+        OffsetLeft: 30,
+    }
+    var bricks = [];
+    for(var i = 0; i < brickSetting.Row; i++) {
+        bricks[i] = [];
+        for(var j = 0; j < brickSetting.Column; j++) {
+            bricks[i][j] = { x: 0, y: 0, status: 1 };
+        }
+    }
+
+    document.addEventListener("keydown", keyDownHandler, false); //키를 눌렀을 때
+    document.addEventListener("keyup", keyUpHandler, false); //키를 뗏을 때
+    document.addEventListener("mousemove", mouseMoveHandler, false); // 마우스를 움직일 때
+
+    function keyDownHandler(e) {
+        if(e.keyCode == 37) {
+            leftPressed = true;
+        } else if(e.keyCode == 39) {
+            rightPressed = true;
+        }
+    }
+    function keyUpHandler(e) {
+        if(e.keyCode == 37) {
+            leftPressed = false;
+        } else if(e.keyCode == 39) {
+            rightPressed = false;
+        }
+    }
+    function mouseMoveHandler(e) {
+        var relativeX = e.clientX - canvas.offsetLeft;
+        if(relativeX > 0 && relativeX < canvas.width) {
+            padSetting.x = relativeX - padSetting.width / 2;
+        }
+    }
+
+    function collisionDetection() {
+        for(var i = 0; i < brickSetting.Row; i++) {
+            for(var j = 0; j < brickSetting.Column; j++) {
+                var b = bricks[i][j];
+                if(b.status == 1) {
+                    if(ballSetting.x > b.x && ballSetting.x < b.x + brickSetting.Width
+                    && ballSetting.y > b.y && ballSetting.y < b.y + brickSetting.Height) {
+                        ballSetting.dy = -ballSetting.dy;
+                        b.status = 0;
+                        score++;
+                        if(score == brickSetting.Row * brickSetting.Column) {
+                            alert("YOU WIN!");
+                            document.location.reload();
+                        }
+                    }
+                }  
+            }
+        }
+    }
+
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(ballSetting.x, ballSetting.y, ballSetting.radius, 0, Math.PI * 2, false);
+        ctx.fillStyle = '#214BFF';
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawPad() {
+        ctx.beginPath();
+        ctx.rect(padSetting.x, canvas.height - padSetting.height, padSetting.width, padSetting.height);
+        ctx.fillStyle = '#2FFF34';
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawBricks() {
+        for(var i = 0; i < brickSetting.Row; i++) {
+            for(var j = 0; j < brickSetting.Column; j++) {
+                if(bricks[i][j].status == 1) {
+                var brickX = (i * (brickSetting.Width + brickSetting.Padding)) + brickSetting.OffsetLeft;
+                var brickY = (j * (brickSetting.Height + brickSetting.Padding)) + brickSetting.OffsetTop;
+                bricks[i][j].x = brickX;
+                bricks[i][j].y = brickY;
+                ctx.beginPath();
+                ctx.rect(brickX, brickY, brickSetting.Width, brickSetting.Height);
+                ctx.fillStyle = '#24FF7C';
+                ctx.fill();
+                ctx.closePath();
+                }
+            }
+        }
+    }
+
+    function drawScrore() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText("Score: " + score, 8, 20);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBricks();
+        drawBall();
+        drawPad();
+        drawScrore();
+        collisionDetection();
+
+        if(ballSetting.y + ballSetting.dy < ballSetting.radius) {
+            ballSetting.dy = -ballSetting.dy; // Top wall setting
+        } else if(ballSetting.y + ballSetting.dy > canvas.height - ballSetting.radius) {
+            if(ballSetting.x > padSetting.x && ballSetting.x < padSetting.x + padSetting.width) {
+                ballSetting.dy = -ballSetting.dy;
+            } else {
+            alert("GAME OVER!");
+            document.location.reload(); // Bottom wall setting
+            }
+        }
+        if(ballSetting.x + ballSetting.dx < ballSetting.radius ||
+         ballSetting.x + ballSetting.dx > canvas.width - ballSetting.radius) {
+            ballSetting.dx = -ballSetting.dx;
+        } // Left wall, Right wall setting
+
+        if(leftPressed && padSetting.x > 0) {
+            padSetting.x -= 7;
+        } else if(rightPressed && padSetting.x < canvas.width - padSetting.width) {
+            padSetting.x += 7;
+        }
+
+        ballSetting.x += ballSetting.dx;
+        ballSetting.y += ballSetting.dy;
+    }
+
+    setInterval(draw, 10);
+</script>
+</body>
+</html>
