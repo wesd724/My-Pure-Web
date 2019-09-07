@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Moving Ball</title>
+</head>
+<body>
+    <canvas id="moving" width="1280" height="720" style="background-color: white"></canvas>
+    <script>
+        const TimeInterval = 33;
+        const BALLNUM = 10;
+        var a;
+        var b;
+
+        function moveBall(x,y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        moveBall.prototype = {
+            setVelocityAsRandom: function(vmin,vmax) {
+				var v = vmin + Math.random()*(vmax-vmin);
+				var t = 2*Math.PI*Math.random();
+				this.vx = v*Math.cos(t);
+				this.vy = v*Math.sin(t);
+				return this;
+			},
+            setColorAsRandom: function(lmin,lmax) {
+				var R = Math.floor(lmin+Math.random()*(lmax-lmin));
+				var G = Math.floor(lmin+Math.random()*(lmax-lmin));
+				var B = Math.floor(lmin+Math.random()*(lmax-lmin));
+				this.color = 'rgb('+R+','+G+','+B+')';
+				return this;
+			},
+            forward: function() {
+                this.x += this.vx;
+                this.y += this.vy;
+                return this;
+            },
+            opposite: function() {
+                this.x -= this.vx;
+                this.y -= this.vy;
+                return this;
+            },
+            draw: function(ctx) {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.fillRect(this.x, this.y, 50, 50);
+                return this;
+            },
+        };
+
+        function StartForwardDirectionBall() {
+            clearInterval(b);
+            a = setInterval(ForwardDirectionBall, TimeInterval);
+        }
+        function StartOppositeDirectionBall() {
+            clearInterval(a);
+            b = setInterval(OppositeDirectionBall, TimeInterval);
+        }
+        document.addEventListener("keydown", keyDownHandler, false);
+
+        function keyDownHandler(e) {
+            if(e.keyCode == 37) {
+                // OppositeDirectionBall();
+                StartOppositeDirectionBall();
+            } else if(e.keyCode == 39) {
+                // ForwardDirectionBall();
+                StartForwardDirectionBall();
+            }
+        }
+
+        var canvas = document.getElementById("moving");
+        var ctx = canvas.getContext("2d");
+        var ballBasicLocation = { left: canvas.width, top: canvas.height };
+        var balls = [];
+        for(var i = 0; i < BALLNUM; i++) {
+            balls[i] = new moveBall(ballBasicLocation.left/2, ballBasicLocation.top/2);
+            balls[i].setColorAsRandom(50,255).setVelocityAsRandom(5,10);
+            console.log(balls[i].vx,balls[i].vy);
+            console.log(balls[i].color);
+        } // 색과 속도는 임의로 정해져서 배열의 저장
+
+        function ForwardDirectionBall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // ctx.fillStyle = 'black';
+            // ctx.fillRect(0,0,canvas.width,canvas.height);
+            for(i = 0; i < balls.length; i++) {
+                balls[i].forward().draw(ctx);
+            }
+        }
+        function OppositeDirectionBall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // ctx.fillStyle = 'black';
+            // ctx.fillRect(0,0,canvas.width,canvas.height);
+            for(i = 0; i < balls.length; i++) {
+                balls[i].opposite().draw(ctx);
+            }
+        }
+    </script>
+</body>
+</html>
