@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<canvas id="mycanvas" width="262" height="600"></canvas>
+<script>
+	var canvas = document.getElementById("mycanvas");
+	var ctx = canvas.getContext("2d");
+    var frameIdx = 0;
+
+	var sprite = new Image();
+    sprite.src = '../img/sprite.png';
+    sprite.addEventListener('load', function() {
+			setInterval(drawDynamicImage, 50);
+		}, false);
+
+    function drawDynamicImage()
+    {
+        var spriteFrames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];		
+        var spriteX = Math.floor(spriteFrames[frameIdx] % 8) * 262;
+        var spriteY = Math.floor(spriteFrames[frameIdx] / 8) * 262;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.drawImage(sprite, spriteX, spriteY, 262, 262, 0, 300, 262, 262);
+
+        frameIdx++;
+        if(frameIdx == spriteFrames.length)
+            frameIdx = 0;
+    }
+</script>
+</body>
+</html>

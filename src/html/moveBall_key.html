@@ -29,7 +29,7 @@
 				var R = Math.floor(lmin+Math.random()*(lmax-lmin));
 				var G = Math.floor(lmin+Math.random()*(lmax-lmin));
 				var B = Math.floor(lmin+Math.random()*(lmax-lmin));
-				this.color = 'rgb('+R+','+G+','+B+')';
+				this.color = 'rgb('+ R + ',' + G + ',' + B + ')'; //rgb(R,G,B)
 				return this;
 			},
             forward: function() {
@@ -53,13 +53,14 @@
         function StartForwardDirectionBall() {
             clearInterval(b);
             a = setInterval(ForwardDirectionBall, TimeInterval);
+            console.log("Forward",a,b);
         }
         function StartOppositeDirectionBall() {
             clearInterval(a);
             b = setInterval(OppositeDirectionBall, TimeInterval);
+            console.log("opposite",a,b);
         }
         document.addEventListener("keydown", keyDownHandler, false);
-
         function keyDownHandler(e) {
             if(e.keyCode == 37) {
                 // OppositeDirectionBall();
