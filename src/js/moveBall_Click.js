@@ -22,13 +22,12 @@ moveBall.prototype = {
     move: function () {
         this.x += this.vx;
         this.y += this.vy;
-        return this;
+		return this;
     },
-    draw: function (ctx) {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.fillRect(this.x, this.y, 50, 50);
-        return this;
+    draw: function (abc) {
+        abc.fillStyle = this.color;
+        abc.beginPath();
+        abc.fillRect(this.x, this.y, 50, 50);
     },
 }
     const TimeInterval = 33;

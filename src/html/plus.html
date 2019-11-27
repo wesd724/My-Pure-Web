@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+    <div>값1: <input type="text" id="first"></div>
+    <div>값2: <input type="text" id="second"></div>
+    <button type="button" id="plus">더하기</button>
+	<button type="button" onclick="init()">초기화</button>
+	<div>결과: <span id="result"></span></div>
+</body>
+<script>
+	var first = document.getElementById("first");
+	var second = document.getElementById("second");
+	var plus = document.getElementById("plus");
+	var result = document.getElementById("result");
+	plus.onclick = function () {
+		result.innerHTML = eval(first.value + "+" + second.value);
+	}
+	function init() {
+		first.value = "";
+		second.value = "";
+		result.innerHTML = "";
+	}
+</script>
+</html>

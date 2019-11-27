@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- <img src="../img/background.jpg"> -->
+    <canvas id="ic"width="1920" height="1200" style="background: skyblue"></canvas>
+    <canvas id="dc"width="1920" height="1200" style="position: absolute; top: 0"></canvas>
+    <script>
+        var imgcanvas = document.getElementById("ic");
+        var ctxi =  imgcanvas.getContext("2d");
+
+        var img = new Image();
+        img.src = "../img/background.jpg";
+        img.onload = function() {
+            ctxi.drawImage(img, 0, 0);
+        }
+        ///////////////////////////////////////////////////////////////////
+        var drawcanvas = document.getElementById("dc");
+        var ctxd = drawcanvas.getContext("2d");
+
+        var x = 0;
+        var y = 10;
+        var dy = 100;
+
+        function draw() {
+            ctxd.clearRect(0,0, drawcanvas.width, drawcanvas.height);
+            ctxd.beginPath();
+            ctxd.fillRect(0, y, 50, 50);
+            ctxd.closePath();
+            if(y + dy > drawcanvas.height || y + dy < 10) {
+                dy = -dy;
+            }
+            y += dy;
+        }
+
+        setInterval(draw, 1000);
+    </script>
+</body>
+</html>

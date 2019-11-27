@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+		.timerStyle {
+			position: absolute;
+			color: #000;
+			top: 8px;
+			left: 550px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas" width="600" height="500" style="background-color: #FFFCC2"></canvas>
+<h3 id="screen" class="timerStyle">0.00</h3>
+<script>
+	let canvas = document.getElementById("mycanvas");
+	let ctx = canvas.getContext("2d");
+	const marbleNumber = 30;
+	let dropMarble = [];
+	let setMarble = { positionY: 0, radius: 5 };
+	
+	function marble(y,r) {
+		this.y = y;
+		this.r = r;
+	}
+	
+	marble.prototype = {
+		setRandomPositionX: function() {
+			this.x = Math.floor(Math.random() * 600);
+			return this;
+		},
+		setRandomVelocity: function() {
+			this.dy = (Math.random() * 10) + 5;
+			return this;	
+		},
+		draw: function() {
+			ctx.beginPath();
+			ctx.fillStyle = "blue";
+			ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI, true);
+			ctx.fill();
+			ctx.closePath();
+			return this;
+		},
+		drop: function() {
+			this.y += this.dy;
+			return this;
+		},
+		keepFall: function() {
+			if(this.y + setMarble.radius > canvas.height) {
+				//this.r = (Math.random() * 10) + 5; // NEW radius
+				this.y = setMarble.positionY; // RESET positionY
+				this.x = Math.floor(Math.random() * 600); // NEW setRandomPositionX
+				this.dy = (Math.random() * 15) + 5; // NEW setRandomVelocity
+				console.log(`dy : ${this.dy}`);
+			}
+			return this;
+		},
+		collisionToPeople: function() {
+			if(this.x + this.r >= setPeople.x &&
+			   this.x - this.r <= setPeople.x + setPeople.width &&
+			   this.y >= canvas.height - setPeople.height) {
+					location.reload();
+			}
+			return this;			
+		},
+	};
+	
+	for(let i = 0; i < marbleNumber; i++) {
+		dropMarble[i] = new marble(setMarble.positionY, setMarble.radius);
+		dropMarble[i].setRandomPositionX().setRandomVelocity();
+	} // Initial setting(first Marble drop setting)
+	
+	
+	function drawMarble() {
+		for(let i = 0; i < dropMarble.length; i++) {
+			dropMarble[i].drop().collisionToPeople().keepFall().draw();
+		}
+	}
+	/****************************Timer************************************/
+	let screen = document.getElementById("screen");
+	let startTime = new Date();
+	function timer() {
+		g_timer = setInterval(function () {
+			let now = new Date();
+			screen.innerHTML = ((now - startTime)/1000).toFixed(2);
+		}, 10)
+	}
+	/****************************People************************************/	
+	let setPeople = { width: 10, height: 50, x: canvas.width / 2 };
+	
+	function drawPeople() {
+		ctx.beginPath();
+		ctx.fillStyle = "black";
+		ctx.rect(setPeople.x, canvas.height - setPeople.height, setPeople.width, setPeople.height);
+		ctx.fill();
+		ctx.closePath();
+	}
+	/****************************KeyHadler****************************/
+	let leftKey = false, rightKey = false;
+	document.addEventListener("keydown", keyDownHandler, false);
+	document.addEventListener("keyup", keyUpHandler, false);
+	
+	function keyDownHandler(e) {
+		if(e.keyCode == 37) {
+			leftKey = true;
+		} else if (e.keyCode == 39) {
+			rightKey = true;
+		}
+	}
+	function keyUpHandler(e) {
+		if(e.keyCode == 37) {
+			leftKey = false;
+		} else if (e.keyCode == 39) {
+			rightKey = false;
+		}
+	}
+	/****************************Canvas draw like animation***********************/	
+	function drawIntergration() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawMarble();
+		drawPeople();
+		if(leftKey && setPeople.x > 0) {
+			setPeople.x -= 7;
+		} else if (rightKey && setPeople.x < canvas.width - setPeople.width) {
+			setPeople.x += 7;
+		}
+	}
+	/************************ Start screen****************************************/
+	function startScreen() {
+		// canvas.style = "background-color: #D8E861";
+		var a = confirm("start game?");
+		if(a == true) {
+			timer();
+			setInterval(drawIntergration, 33);
+			
+		} else if(a == false) {
+			//clearInterval(g_timer);
+			canvas.style = "background-color:#B6DEBF"
+			ctx.font = "50px sans-serif"
+			ctx.fillText("END!", canvas.width - 380, canvas.height/2);
+		}
+	}
+	
+
+	startScreen();
+	// 탈락 후에 몇 timer 버텻는지 표시하는 기능.
+	// 구슬이 떨어질 때 바닥이 닿기 전에도 새로운 구슬이 떨어지도록 만들기.
+</script>
+</body>
+</html>
