@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <script>
+        var arr = [1, "36ㅇ5", 46, {a: 5, b: "안"}, 32]
+        for(let i in arr) {
+            console.log(`for-in: ${arr[i]}`);
+        }
+        console.log(arr[3].a);
+        for(let i of arr) {
+            console.log(`for-of: ${arr[i]}`);
+        }
+
+        var obj = {a: 1, b: "ad", c: 123};
+        for(let i in obj) {
+            console.log(`for-in: ${i}= ${obj[i]}`);
+        }
+        for(let i of obj) {
+            console.log(`for-of: ${i}= ${obj[i]}`);
+        }
+    </script>
+</body>
+</html>

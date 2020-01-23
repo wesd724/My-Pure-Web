@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        window.onload = () => {
+            document.getElementById("change").onclick = () => {
+                const number = document.getElementById("number");
+                const char = document.getElementById("char");
+                char.value = NumberToChar(number);
+            }
+        };
+
+        function NumberToChar(n) {
+            const num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            const ch = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+            let ns = n.value.replace(/0|1|2|3|4|5|6|7|8|9/g, (string) => {
+                for(let i = 0; i < num.length; i++) {
+                    switch(string) {
+                        case num[i]: return ch[i];
+                    }
+                }
+            });
+            return ns;
+        }
+        //https://pastebin.com/cccqqDRP
+        
+        const avc = {
+            "abc": 'aq',
+            0 : 'a',
+            '1' : 'b',
+            zero : 'as',
+            'zero': 'qwe',
+            "propz": "alpha"
+        }
+        console.log(avc["0"], avc["1"], avc["zero"], avc.abc, avc.zero, avc.propz, avc["propz"], avc);
+    </script>
+</head>
+<body>
+    숫자: <input type="text" id="number"><br>
+    문자: <input type="text" id="char">
+    <button id="change">변환</button>
+</body>
+</html>
+

@@ -85,7 +85,7 @@
         for(var i = 0; i < brickSetting.Row; i++) {
             for(var j = 0; j < brickSetting.Column; j++) {
                 var b = bricks[i][j];
-                if(brickScore[i][j].score > 0 || b.status == 1) {
+                if(brickScore[i][j].score > 0 || b.status == 1) { //It works without 'b.status == 1'
                     if(ballSetting.x > b.x && ballSetting.x < b.x + brickSetting.Width
                     && ballSetting.y > b.y && ballSetting.y < b.y + brickSetting.Height) {
                         ballSetting.dy = -ballSetting.dy;
@@ -94,7 +94,7 @@
                         } else {
                             index = 0;
                         }
-                        b.status = 0;
+                        //b.status = 0;
                         score++;
                         brickScore[i][j].score--;
                         ctx.beginPath();
@@ -131,7 +131,7 @@
     function drawBricks() {
         for(var i = 0; i < brickSetting.Row; i++) {
             for(var j = 0; j < brickSetting.Column; j++) {
-                if(brickScore[i][j].score > 0 || bricks[i][j].status == 1) {
+                if(brickScore[i][j].score > 0 || bricks[i][j].status == 1) { //It works without 'b.status == 1'
                 var brickX = (i * (brickSetting.Width + brickSetting.Padding)) + brickSetting.OffsetLeft;
                 var brickY = (j * (brickSetting.Height + brickSetting.Padding)) + brickSetting.OffsetTop;
                 bricks[i][j].x = brickX;

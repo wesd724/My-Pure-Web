@@ -1,0 +1,10 @@
+var text = "1 world, 2 world, 3 world";
+var reg = /\d+ world/y;
+console.log(reg.exec(text));
+console.log(reg.lastIndex);
+reg.lastIndex = 9;
+console.log(reg.exec(text));
+console.log(reg.lastIndex);
+reg.lastIndex = 17;
+console.log(reg.exec(text));
+console.log(reg.lastIndex);
