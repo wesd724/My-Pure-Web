@@ -83,7 +83,6 @@
 			   this.x - this.r <= setPeople.x + setPeople.width &&
 			   this.y >= canvas.height - setPeople.height) {
 				game.status = false;
-				gameOver();
 			}
 			return this;
 		}
@@ -97,7 +96,7 @@
 	function drawMarble() {
 		if(game.status == true) {
 			for(let i = 0; i < dropMarble.length; i++) {
-				dropMarble[i].drop().collisionToPeople()
+				dropMarble[i].drop().collisionToPeople();
 			}
 		}
 	}
@@ -141,6 +140,7 @@
 		update();
 		draw();
 	}
+
 	main();
 	setInterval(drawPeople, 15);
 	 /****************************People************************************/	
@@ -178,87 +178,7 @@
 		} else if (e.keyCode == 39) {
 			rightKey = false;
 		}
-	}	
-
-
-	// /************************ Start screen****************************************/
-	// let s_go = document.getElementById("s_go");
-	// let s_exit = document.getElementById("s_exit");
-	// s_go.addEventListener('click', function () {
-	// 	main();
-	// });
-	// s_go.addEventListener('click', function () {
-	// 	s_go.innerHTML = "";
-	// 	s_exit.innerHTML = "";
-	// });
-	// s_go.addEventListener('mouseover', function () {
-	// 	s_go.style = "font-size: 60px";
-	// });
-	// s_go.addEventListener('mouseout', function () {
-	// 	s_go.style = "font-size: 50px";
-	// });
-	
-
-	// function startScreen() {
-	// 	canvas.style = "background-color:#B6DEBF"
-	// 	ctx.font = "bold 50px Arial";
-	// 	ctx.fillText("Start game?", canvas.width - 450, canvas.height - 350);
-	// }
-	// startScreen();
-
-	// /************************ Game over screen****************************************/	
-	// let out = document.getElementById("outCanvas")
-	// let outctx = out.getContext("2d");
-
-	// let o_go = document.getElementById("o_go");
-	// let o_exit = document.getElementById("o_exit");
-
-	// function gameOver() {
-	// 	canvas.style = null;
-	// 	clearInterval(g_timer);
-	// 	clearInterval(g_interval);
-	// 	screen.innerHTML = "";
-	// 	// ctx.clearRect(0, 0, canvas.width, canvas.height);
-		
-	// 	for(let i = 0; i < marbleNumber; i++) {
-	// 		dropMarble[i] = new marble(setMarble.positionY, setMarble.radius);
-	// 		dropMarble[i].setRandomPositionX().setRandomVelocity();
-	// 	} // Initial setting(first Marble drop setting)
-
-	// 	out.style  = "background-color:#000; position: absolute; top: 100px; left: 200px";
-	// 	outctx.font = "bold 50px Arial";
-	// 	outctx.fillStyle = "yellow";
-	// 	outctx.fillText("Restart game?", canvas.width - 470, canvas.height - 350);
-
-	// 	o_go.innerHTML = "RESTART!";
-	// 	o_exit.innerHTML = "NO";
-	// 	o_go.addEventListener('click', function () {
-	// 		game.status = true;
-	// 		timer();
-	// 		setInterval(drawIntergration, 33);
-	// 	});
-	// 	o_go.addEventListener('click', function () {
-	// 		o_go.innerHTML = "";
-	// 		o_exit.innerHTML = "";
-	// 	});
-	// 	o_go.addEventListener('mouseover', function () {
-	// 		o_go.style = "font-size: 60px";
-	// 	});
-	// 	o_go.addEventListener('mouseout', function () {
-	// 		o_go.style = "font-size: 50px";
-	// 	});
-	// }
-
-	// function restartScreen() {
-	// 	canvas.style = "background-color:#000 top: 100px, left: 200px";
-	// 	ctx.font = "bold 50px Arial";
-	// 	ctx.fillStyle = "blue";
-	// 	ctx.fillText("Start game?", canvas.width - 450, canvas.height - 350);
-	// 	console.log(ctx.fillText);
-	// }
-	// // 시작과 종료 화면 만들기
-	// // 탈락 후에 몇 timer 버텻는지 표시하는 기능.
-	// // 구슬이 떨어질 때 바닥이 닿기 전에도 새로운 구슬이 떨어지도록 만들기.
+	}
 </script>
 </body>
 </html>
