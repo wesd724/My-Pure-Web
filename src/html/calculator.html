@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        button {
+          width: 80px;
+        }
+      </style>
+</head>
+<body>
+    <table id="cal">
+        <tbody>
+            <tr>
+                <td>
+                    <button value="1">1</button>
+                </td>
+                <td>
+                    <button value="2">2</button>
+                </td>
+                <td>
+                    <button value="3">3</button>
+                </td>
+                <td>
+                    <button value="+"><b>+</b></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button value="4">4</button>
+                </td>
+                <td>
+                    <button value="5">5</button>
+                </td>
+                <td>
+                    <button value="6">6</button>
+                </td>
+                <td>
+                    <button value="-"><b>-</b></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button value="7">7</button>
+                </td>
+                <td>
+                    <button value="8">8</button>
+                </td>
+                <td>
+                    <button value="9">9</button>
+                </td>
+                <td>
+                    <button value="*"><b>*</b></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button>C</button>
+                </td>
+                <td>
+                    <button value="0">0</button>
+                </td>
+                <td>
+                    <button value="."><strong>.</strong></button>
+                </td>
+                <td>
+                    <button value="/"><b>/</b></button>
+                </td>
+                <td>
+                    <button><b>=</b></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="text" id="text" size="45">
+    <script>
+        const input = document.getElementById("text");
+
+        const id = document.getElementById("cal");
+        const inner = id.firstElementChild;
+        for (let j = 0; j < 4; j++) {
+            const first = inner.children[j];
+            for (let i = 0; i < 4; i++) {
+                if(j == 3 && i == 0) continue;
+                const second = first.children[i].firstElementChild;
+                second.onclick = () => {
+                   //console.log(second.value)
+                    input.value += second.value;
+                }
+            }
+        }
+
+        const equal = document.getElementById("cal").children[0].children[3].lastElementChild.firstElementChild;
+        equal.addEventListener("click", () => {
+            input.value = eval(input.value)
+        });
+        const clear = document.getElementById("cal").children[0].children[3].firstElementChild.firstElementChild;
+        clear.addEventListener("click", () => {
+            input.value = input.value.substring(0, input.value.length - 1);
+        });
+        let condition;
+        clear.addEventListener("mousedown", () => {
+            condition = true;
+            timer = setTimeout(() => {
+               console.log(timer)
+                if(condition) {
+                    input.value = "";
+                }
+            },1000);
+        });
+        clear.addEventListener("mouseup", () => {
+            condition = false;
+            console.log(condition);
+        });
+
+
+        /* second way */
+        //const button = document.getElementsByTagName("button");
+        //console.log(button)
+        // for(let i = 0; i < 4; i++) {
+        //     button[i].onclick = () => {
+        //         input.value = i + 1;
+        //         console.log(input.value)
+        //     };
+        // }
+    </script>
+</body>
+</html>
