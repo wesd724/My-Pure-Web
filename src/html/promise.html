@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // let promise = new Promise(function(resolve, reject) {
+        //     setTimeout(function () {
+        //         console.log(1);
+        //         let n = parseInt(prompt("10미만 숫자 입력"));
+        //         if(n < 10) {
+        //             resolve(n);
+        //         } else {
+        //             reject(`오류: ${n}은(는) 10이상의 숫자`);
+        //         }
+        //     }, 1000);
+        // });
+        // promise.then(function(number) {
+        //     console.log(`number: ${number}`);
+        // })
+        // .catch(function(string){
+        //     console.log(string);
+        // });
+
+
+        // let promise2 = new Promise(function(resolve, reject) {
+        //     setTimeout(function () {
+        //         console.log(11);
+        //         let n = parseInt(prompt("10이상 숫자 입력"));
+        //         if(n >= 10) {
+        //             resolve(n);
+        //         } else {
+        //             reject(`오류: ${n}은(는) 10미만의 숫자`);
+        //         }
+        //     }, 1000);
+        // });
+        // promise2.then(
+        //     function(number) {
+        //         console.log(`number: ${number}`);
+        //     },
+        //     function(string) {
+        //         console.log(string);
+        //     }
+        // );
+
+
+        function buyAsync(mymoney) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    let payment = parseInt(prompt("얼마 지불?"));
+                    let balance = mymoney - payment;
+                    if(balance >= 0) {
+                        console.log(`${payment}원 지불하셨습니다`);
+                        resolve(balance);
+                    } else {
+                        reject(mymoney);
+                    }
+                }, 1000);
+            });
+        }
+        buyAsync(500)
+        .then((baString) => {
+            console.log(`잔액은 ${baString}원 입니다`);
+            return buyAsync(baString)
+        })
+        .then((baString) => {
+            console.log(`잔액은 ${baString}원 입니다`);
+            return buyAsync(baString)
+        })
+        .then((baString) => {
+            console.log(`잔액은 ${baString}원 입니다`);
+            return buyAsync(baString)
+        })
+        .catch((money) => {
+            console.log(`잔액은 ${money}이므로 구매가 불가능합니다`);
+        // })
+
+
+        // function buyAsync(name, mymoney) {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             let payment = parseInt(prompt(`${name}님, 얼마 지불?`));
+        //             let balance = mymoney - payment;
+        //             if(balance >= 0) {
+        //                 console.log(`${name}님, ${payment}원 지불하셨습니다`);
+        //                 resolve(balance);
+        //             } else {
+        //                 reject(`${name}님,잔액은 ${mymoney}이므로 구매가 불가능합니다`);
+        //             }
+        //         }, 1000);
+        //     });
+        // }
+        // Promise.all([
+        //     buyAsync("A", 500),
+        //     buyAsync("B", 600),
+        //     buyAsync("C", 700),
+        // ])
+        //     .then((baString) => {
+        //         console.log(baString);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     })
+
+
+        // function buyAsync(name, mymoney) {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             let payment = parseInt(prompt(`${name}님, 얼마 지불?`));
+        //             let balance = mymoney - payment;
+        //             if(balance >= 0) {
+        //                 console.log(`${name}님, ${payment}원 지불하셨습니다`);
+        //                 resolve(balance);
+        //             } else {
+        //                 reject(`${name}님,잔액은 ${mymoney}이므로 구매가 불가능합니다`);
+        //             }
+        //         }, 1000);
+        //     });
+        // }
+        // Promise.race([
+        //     buyAsync("A", 500),
+        //     buyAsync("B", 600),
+        //     buyAsync("C", 700),
+        // ])
+        //     .then((baString) => {
+        //         console.log(baString);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     })
+    </script>
+</head>
+<body>
+</body>
+</html>
