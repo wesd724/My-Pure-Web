@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>원의 N분점을 연결하는 직선 그리기</title>
+	<script>
+        function diamond(c,n,x,y,r,color) {
+            var p = generatePoints(n,x,y,r);
+            c.strokeStyle = color;
+            c.beginPath();
+            for(var i = 0; i < n; i++) {
+                for(var j = i + 1; j < n; j++) {
+                    c.moveTo(p[i].x, p[i].y);
+                    c.lineTo(p[j].x, p[j].y);
+                }
+            }
+            c.stroke();
+        }
+        function generatePoints(n,x,y,r) {
+            var points = [];
+            for(var i = 0; i < n; i++) {
+                var t = i * 2 * Math.PI / n;
+                points[i] = {
+                    x: x + r * Math.cos(t),
+                    y: y + r * Math.sin(t)
+                };
+            }
+            return points;
+        }
+        window.onload = function() {
+            var canvas = document.getElementById("mycanvas");
+            var ctx = canvas.getContext("2d");
+            for(var i = 2,j = 20,a = 60,b = 60, c = 60, d = 60
+            ; i <= 47
+            ; i++, j+=100) {
+                if(j <= 920) {
+                    diamond(ctx, i,100,j,50,'darkblue');
+                    console.log("첫번째",j);
+                } else if(j > 920 && j <= 1820) {
+                    diamond(ctx, i,300,a,50,'darkblue');
+                    a += 100;
+                    console.log("두번째",j);
+                } else if(j > 1820 && j <= 2720) {
+                    diamond(ctx, i,500,b,50,'darkblue');
+                    b += 100;
+                    console.log("세번째",j);
+                } else if(j > 2720 && j <= 3620) {
+                    diamond(ctx, i,700,c,50,'darkblue');
+                    c += 100;
+                    console.log("네번째",j);
+                } else {
+                    diamond(ctx, i,850,d,50,'darkblue');
+                    d += 100;
+                    console.log("다섯번째",j);
+                }             
+            }
+        };
+	</script>
+</head>
+<body>
+    <canvas id="mycanvas" width="1000" height="1000" style="background-color: aqua"></canvas>
+</body>

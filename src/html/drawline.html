@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+    <canvas id="canvas" width="710" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.style.backgroundColor = "#000";
+
+        let status = false;
+
+        canvas.addEventListener("mousedown", drawStart);
+        canvas.addEventListener("mousemove", drawing);
+        canvas.addEventListener("mouseup", drawEnd);
+
+        function drawStart(e) {
+            status = true;
+            ctx.beginPath();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#fff';
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function drawing(e) {
+            if (status) {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        }
+
+        function drawEnd() {
+            status = false;
+        }
+
+
+    </script>
+
+</body>
+
+</html>

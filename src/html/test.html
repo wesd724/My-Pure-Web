@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+	<div>ㅎㅇ</div>
+	<script>
+		let ul = document.createElement("ul");
+		let li = document.createElement("li");
+		li.textContent = "대한민국";
+		let li2 = document.createElement("li");
+		li2.textContent = "미국";
+		document.body.appendChild(ul);
+		ul.appendChild(li);
+		ul.appendChild(li2);
+	</script>
+	<div>asd</div>
+	<script>
+		let div = document.createElement("div");
+		let p = document.createElement("p");
+		p.textContent = "조선";
+		let p2 = document.createElement("p");
+		p2.textContent = "안녕하세요";
+		document.getElementsByTagName("div")[1].appendChild(div);
+		div.appendChild(p2);
+		div.appendChild(p);
+	</script>
+	<script>
+	const foreachArr = [1, 2, 3, 4, 5];
+	const mapArr = [10, 20, 30, 40, 50];
+	
+	let foreachResult = foreachArr.forEach((a) => { return a * 2 })
+	let mapResult = mapArr.map((a) => { return a + 2 });
+	console.log(foreachResult);
+	console.log(mapResult);
+	</script>
+</body>
+</html>

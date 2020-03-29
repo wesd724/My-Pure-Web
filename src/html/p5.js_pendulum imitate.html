@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+	<canvas id="canvas" width="640" height="360"></canvas>
+	<!-- <canvas id="canvas2" width="640" height="360"></canvas> -->
+	<script>
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		canvas.style.backgroundColor = "#999999";
+		
+		//const canvas2 = document.getElementById("canvas2");
+		const canvas2 = document.createElement("canvas");
+		canvas2.width = 640;
+		canvas2.height = 360;
+		const ctx2 = canvas2.getContext("2d");
+		canvas2.style.backgroundColor = "#999999";
+		
+		const len = 180;
+		const origin = { x: canvas.width / 2, y: 0 };
+		const bob = {x: canvas.width / 2, y: len };
+		
+		let angle = Math.PI / 4;
+		let aVel = 0.0;
+		let aAcc = 0.0;
+		
+		let status = false;
+		
+		function line(x1, y1, x2, y2)
+		{
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.strokeStyle = '#000000';
+			ctx.stroke();
+		}
+		
+		function circle(x1, y1, r)
+		{
+			ctx.beginPath();
+			ctx.strokeStyle = "black";
+			ctx.lineWidth = 3;
+			ctx.fillStyle = "white";
+			ctx.arc(x1, y1, r, 0, Math.PI * 2, false);
+			ctx.stroke();
+			ctx.fill();
+		}
+		
+		function point(ctx, x1, y1)
+		{
+			ctx.beginPath();
+			ctx.fillStyle = "black";
+			ctx.arc(x1, y1, 2, 0, Math.PI * 2, false);
+			ctx.fill();
+		}
+		
+		function draw()
+		{
+			status = true;
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			bob.x = origin.x + len * Math.sin(angle);
+			bob.y = origin.y + len * Math.cos(angle);
+			
+			line(origin.x, origin.y, bob.x, bob.y);
+			circle(bob.x, bob.y, 15);
+			
+			aAcc = -0.01 * Math.sin(angle);
+			
+			angle += aVel;
+			aVel += aAcc;
+			
+			aVel *= 0.99;
+			
+			point(ctx2, bob.x, bob.y);
+			
+			ctx.drawImage(canvas2, 0, 0);
+		}
+		
+		let a = setInterval(draw, 1000 / 60);
+		
+		canvas.addEventListener("click", (ev) => {
+			console.log(`screenX: ${ev.screenX} screenY: ${ev.screenY}`);
+			console.log(`clientX: ${ev.clientX} screenY: ${ev.clientY}`);
+			console.log(`pageX: ${ev.pageX} pageY: ${ev.pageY}`);
+			console.log(`offsetX: ${ev.offsetX} offsetY: ${ev.offsetY}`);
+			if(status)
+			{
+				clearInterval(a);
+				status = false;
+			}
+			else if(!status)
+			{
+				a = setInterval(draw, 1000 / 60);
+			}
+		});
+		
+	</script>
+</body>
+</html>

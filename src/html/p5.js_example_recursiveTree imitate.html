@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+	<canvas id="canvas" width="710" height="400"></canvas>
+	<script>
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		canvas.style.backgroundColor = "#000";
+
+		let theta;
+		
+		function line(x1, y1, x2, y2)
+		{
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.strokeStyle = '#fff';
+			ctx.stroke();
+		}
+
+		canvas.addEventListener("mousemove", draw);
+		function draw(evt)
+		{
+			ctx.save();
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			let a = (evt.offsetX / canvas.width) * 90;
+			theta = a * (Math.PI / 180);
+			ctx.translate(canvas.width / 2, canvas.height);
+			line(0, 0, 0, -120);
+			ctx.translate(0, -120);
+			branch(120);
+			ctx.restore();
+		}
+
+		function branch(h)
+		{
+			h *= 0.66;
+
+			if(h > 2)
+			{
+				ctx.save();
+				ctx.rotate(theta);
+				line(0, 0, 0, -h);
+				ctx.translate(0, -h);
+				branch(h);
+				ctx.restore();
+
+				ctx.save();
+				ctx.rotate(-theta);
+				line(0, 0, 0, -h);
+				ctx.translate(0, -h);
+				branch(h);
+				ctx.restore();
+			}
+		}
+		
+		//setInterval(main, 1000 / 30);
+		
+	</script>
+
+</body>
+</html>
