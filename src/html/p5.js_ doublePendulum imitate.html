@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+	<canvas id="canvas" width="600" height="400"></canvas><br><br>
+	<div>r2: 0<input type="range" value="125" min="0" max="200" step="5" oninput="document.getElementById('value1').innerHTML=this.value">200&nbsp;&nbsp;<strong id="value1"></strong></div>
+	<div>r1: 0<input type="range" value="125" min="0" max="200" step="5" oninput="document.getElementById('value2').innerHTML=this.value">200&nbsp;&nbsp;<strong id="value2"></strong></div><br>
+	<div>m1: 0<input type="range" value="25" min="0" max="40" step="5" oninput="document.getElementById('value3').innerHTML=this.value">40&nbsp;&nbsp;<strong id="value3"></strong></div>
+	<div>m2: 0<input type="range" value="25" min="0" max="40" step="5" oninput="document.getElementById('value4').innerHTML=this.value">40&nbsp;&nbsp;<strong id="value4"></strong></div>
+	<!-- <canvas id="canvas2" width="640" height="360"></canvas> -->
+	<script>
+		let input = document.getElementsByTagName("input");
+		let strong = document.getElementsByTagName("strong");
+		for(let i = 0; i < 4; i++) {
+			strong[i].textContent = input[i].value;
+		}
+	</script>
+	<script>
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		canvas.style.backgroundColor = "#999999";
+		
+		//const canvas2 = document.getElementById("canvas2");
+		const canvas2 = document.createElement("canvas");
+		canvas2.width = canvas.width;
+		canvas2.height = canvas.height;
+		const ctx2 = canvas2.getContext("2d");
+		canvas2.style.backgroundColor = "#999999";
+
+		let status = false;
+		let b;
+
+		let cx = canvas.width / 2;
+		let cy = 50;
+		
+		let r1 = strong[0].value;
+		let r2 = input[1].value;
+		let m1 = input[2].value;
+		let m2 = input[3].value;
+		let a1 = Math.PI / 2;
+		let a2 = Math.PI / 2;
+		let a1_v = 0;
+		let a2_v = 0;
+		let g = 1;
+
+		let px2 = -1;
+		let py2 = -1;
+		
+		function line(ctx, x1, y1, x2, y2)
+		{
+			ctx.beginPath();
+			ctx.lineWidth = 2;
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.strokeStyle = '#000000';
+			ctx.stroke();
+		}
+		
+		function circle(x1, y1, r)
+		{
+			ctx.beginPath();
+			//ctx.strokeStyle = "black";
+			//ctx.lineWidth = 3;
+			ctx.fillStyle = "black";
+			ctx.arc(x1, y1, r, 0, Math.PI * 2, false);
+			//ctx.stroke();
+			ctx.fill();
+		}
+		
+		function point(ctx, x1, y1)
+		{
+			ctx.beginPath();
+			ctx.fillStyle = "black";
+			ctx.arc(x1, y1, 2, 0, Math.PI * 2, false);
+			ctx.fill();
+		}
+
+		function push() {
+			ctx.save();
+			ctx2.save();
+		}
+
+		function pop() {
+			ctx.restore();
+			ctx2.restore();
+
+		}
+
+		function translate(x, y) {
+			ctx.translate(x, y);
+			ctx2.translate(x, y);
+		}
+		
+		function draw()
+		{
+			status = true;
+			push();
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			translate(cx, cy);
+
+			let num1 = -g * (2 * m1 + m2) * Math.sin(a1);
+			let num2 = -m2 * g * Math.sin(a1 - 2 * a2);
+			let num3 = -2 * Math.sin(a1 - a2) * m2;
+			let num4 = a2_v * a2_v * r2 + a1_v * a1_v * r1 * Math.cos(a1 -a2);
+			let den = r1 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2));
+			let a1_a = (num1 + num2 + num3 * num4) / den;
+
+			num1 = 2 * Math.sin(a1 - a2);
+			num2 = (a1_v * a1_v * r1 * (m1 + m2));
+			num3 = g * (m1 + m2) * Math.cos(a1);
+			num4 = a2_v * a2_v * r2 * m2 * Math.cos(a1 - a2);
+			den = r2 * (2 * m1 + m2 - m2 + Math.cos(2 * a1 - 2 * a2));
+			let a2_a = (num1 * (num2 + num3 + num4)) / den; 
+
+			let x1 = r1 * Math.sin(a1);
+			let y1 = r1 * Math.cos(a1);
+
+			let x2 = x1 + r2 * Math.sin(a2);
+			let y2 = y1 + r2 * Math.cos(a2);
+
+			line(ctx, 0, 0, x1, y1);
+			circle(x1, y1, m1 / 2);
+
+			line(ctx, x1, y1, x2, y2);
+			circle(x2, y2, m2 / 2);
+
+			a1_v += a1_a;
+			a2_v += a2_a;
+			a1 += a1_v;
+			a2 += a2_v;
+			if(px2 != -1) {
+				line(ctx2, px2, py2, x2, y2);
+			}
+
+			px2 = x2;
+			py2 = y2;
+			pop();
+			
+			ctx.drawImage(canvas2, 0, 0);
+		}
+
+		function value() {
+			r1 = Number(input[0].value);
+			r2 = Number(input[1].value);
+			m1 = Number(input[2].value);
+			m2 = Number(input[3].value);	
+		}
+
+		function main() {
+			value();
+			draw();
+		}
+		
+		canvas.addEventListener("click", (ev) => {
+			if(status)
+			{
+				stopInterval();
+			}
+			else if(!status)
+			{
+				startInterval();
+			}
+		});
+
+		function startInterval() {
+			b = setInterval(main, 1000 / 60);
+		}
+		
+		function stopInterval() {
+			status = false;
+			clearInterval(b);
+		}
+	</script>
+</body>
+</html>

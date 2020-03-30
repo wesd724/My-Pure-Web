@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<style>
+		#mycanvas { border: 1px solid gray; }
+	</style>
+</head>
+<body>
+    <canvas id="mycanvas" width=600 height=600></canvas>
+    <script>
+        let a = ["b", 9, "12"];
+        var iters = a[Symbol.iterator]();
+        while(true) {
+            let  itersRe = iters.next();
+            if(itersRe.done == true) {
+                break;
+            }
+            console.log(itersRe,itersRe.value)
+        }
+        // var canvas = document.getElementById("mycanvas");
+		// 	var ctx = canvas.getContext("2d");
+		// 	var iter = randomWalk(ctx,300,300,4,"red");
+
+        // function* randomWalk(c,x0,y0,d) {
+		// 	var dx = [1,0,-1,0], dy = [0,1,0,-1];
+		// 	var x = x0;
+		// 	var y = y0;
+		// 	c.strokeStyle = "red";
+		// 	c.globalAlpha = 0.25;
+		// 	while(true) {
+        //         console.log(3);
+		// 		yield;
+        //         console.log(1);
+		// 		c.beginPath();
+		// 		c.moveTo(x,y);
+		// 		var dir = Math.floor(Math.random()*4);
+		// 		x += d*dx[dir];
+		// 		y += d*dy[dir];
+		// 		c.lineTo(x,y);
+		// 		c.stroke();
+        //         console.log(2);
+		// 	}
+        // }
+
+        // canvas.onclick = () => {
+        //     iter.next();
+        // };
+
+
+        // function* g() {
+        //     yield 1;
+        //     yield 2;
+        //     yield 3;
+        // }
+
+        // let iter = g();
+        // console.log(iter.next());
+        // console.log(iter.return("as"));
+        // console.log(iter.next());
+
+
+        // function* s1() {
+        //     yield [5, 6];
+        //     yield "ONE";
+        // }
+        // function* s2() {
+        //     yield [7,8];
+        //     yield "TWO";
+        // }
+
+        // function* f() {
+        //     yield 1;
+        //     yield;
+
+        //     yield "abcde";
+        //     yield [1, 2, 3];
+        //     yield {x: 5, y: 7};
+        //     yield s1();
+
+        //     yield* "qwxyz";
+        //     yield* [10, 20, 30];
+        //    // yield* {x: 50, y: 70};
+        //     yield* s2();
+        // }
+
+        // let iter = f();
+        // for(let i of iter) console.log(i);
+    </script>
+</body>
+</html>
