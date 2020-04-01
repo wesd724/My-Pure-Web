@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        body {
+            background-color: #999;
+        }
+        canvas {
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <script>
+        'use strict';
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.style.backgroundColor = "#000";
+
+        let values = new Array(canvas.width);
+
+        let i = 0;
+        let frame = null;
+        let frameRate = 0;
+
+        for(let i = 0; i < values.length; i++) {
+            values[i] = (Math.random() * canvas.height) + 1
+        }
+
+        function line(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "#fff";
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        function swap(arr, a, b) {
+            let temp = arr[a];
+            arr[a] = arr[b];
+            arr[b] = temp;
+        }
+
+        function text(string, x1, y1) {
+            ctx.beginPath();
+            ctx.fillStyle = "yellow";
+            ctx.font = "30px Arial";
+            ctx.fillText(string, x1, y1);
+        }
+
+        function draw() {
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            text(`draw 호출 수: ${frameRate}`, 50, 50);
+            frameRate++;
+
+            if(i < values.length) {
+                for(let j = 0; j < values.length - i - 1; j++) {
+                    if(values[j] > values[j + 1])
+                    {
+                        swap(values, j, j + 1);
+                    }
+                }
+            } else {
+                clearInterval(frame);
+                text("SORT FINISHED!", 50, 150);
+            }
+            i++;
+
+            for(let i = 0; i < values.length; i++) {
+                line(i, canvas.height, i, canvas.height - values[i]);
+            }
+        }
+
+        frame = setInterval(draw, 1000 / 60);
+
+    </script>
+</body>
+</html>
