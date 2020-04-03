@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+
+<body>
+    <script>
+        function asyncFunction1() {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    console.log(1)
+                    resolve("안녕")
+                }, 1000)
+            })
+        }
+
+        function asyncFunction2() {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    console.log(2)
+                    resolve()
+                }, 300)
+            })
+        }
+
+        function asyncFunction3() {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    console.log(3)
+                    resolve("반환값")
+                }, 700)
+            })
+        }
+		
+		function asyncFunction4() {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    console.log(4)
+                    resolve("four")
+                }, 700)
+            })
+        }
+
+        function asyncFunction5() {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    console.log(5)
+                    resolve()
+                }, 700)
+            })
+        }
+
+        // asyncFunction1()
+        // asyncFunction2()
+        // asyncFunction3()
+
+        // asyncFunction1()
+        //     .then(function(result) {
+        //         console.log(result);
+        //         return asyncFunction2()
+        //     })
+        //     .then(function(result) {
+        //         return asyncFunction3()
+        //     })
+        //     .catch(function(error) {
+        //         console.log(error)
+        //     })
+
+       async function async1() {
+            let result1 = await asyncFunction1();
+            console.log(result1);
+            console.log("\n");
+            let result2 = await asyncFunction2();
+            console.log(result2);
+            console.log("\n");
+            let result3 = await asyncFunction3();
+            console.log(result3);
+            console.log("\n");
+			let result4 = asyncFunction4().then((a) => { console.log(a) });
+			//console.log(result4);
+            //result4.then((a) => { console.log(a) });
+            console.log("\n");
+            let result5 = asyncFunction5();
+            //console.log(result5);
+			//console.log(result5.then((a) => { console.log(a) }));
+        }
+
+        async1();
+    </script>
+</body>
+
+</html>
