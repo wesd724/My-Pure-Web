@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+
+<body>
+    <script>
+
+        ///////////// callback function ///////////////////////
+        function time(log, callbackfunction, times) {
+            setTimeout(callbackfunction, times, log);
+        }
+
+        time(1, function(a) {
+            console.log(a);
+            time(2, function(a) {
+                console.log(a);
+                time(3, function(a) {
+                    console.log(a);
+                }, 500);
+            }, 300);
+        },700);
+
+
+
+        /////////////// promise ///////////////////////
+        // function promis(log, times) {
+        //     return new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             console.log(log);
+        //             resolve();
+        //         }, times);
+        //     })
+        // }
+
+        // promis(1,700)
+        //     .then(function() {
+        //         return promis(2, 300);
+        //     })
+        //     .then(function() {
+        //         return promis(3, 500);
+        //     })
+
+
+
+        //////////// async  await //////////////////////////
+        // function asyawa(log, times) {
+        //     return new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             console.log(log);
+        //             resolve();
+        //         }, times);
+        //     })
+        // }
+
+        // async function ncit() {
+        //     await asyawa(1, 700);
+        //     await asyawa(2, 300);
+        //     await asyawa(3, 500);
+        // }
+
+
+
+
+///////////////////////////////////////////////////////////////////
+        // setTimeout(function() {
+        //     console.log(1)
+        // }, 700);
+        // setTimeout(function() {
+        //     console.log(2)
+        // }, 300);
+        // setTimeout(function() {
+        //     console.log(3)
+        // }, 500);
+    </script>
+</body>
+
+</html>
