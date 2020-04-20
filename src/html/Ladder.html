@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <style>
+    #canvas {
+        border: 3px solid black;
+    }
+    .right {
+        position: absolute;
+    }
+    .left {
+        position: absolute;
+    }
+    #upDiv {
+        position: absolute;
+        top: 50px;
+    }
+    #downDiv {
+        position: absolute;
+        top: 430px;
+    }
+    input {
+        margin-left: 5px;
+    }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <i class="fas fa-chevron-right right" style="font-size: 56px"></i>
+    <i class="fas fa-chevron-left left" style="font-size: 56px"></i>
+    <div id="upDiv"></div>
+    <div id="downDiv"></div>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let num = 6;
+
+        function line(x1, y1, x2, y2, color = "black") {
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.strokeStyle = color;
+			ctx.stroke();
+        }
+        
+        function round(x, y, r, color) {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3;
+            ctx.arc(x, y, r, 0, Math.PI * 2, false);
+            ctx.stroke();
+        }
+
+        function text(string, x, y, fontSize, color = "black") {
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.font = fontSize + "px " + "Arial";
+            ctx.fillText(string, x, y);
+        }
+
+        function rect(x1, y1, x2, y2, color = "black") {
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3;
+            ctx.strokeRect(x1, y1, x2, y2);
+        }
+
+        function arrow(x, y, direction) {
+            const arrow = document.getElementsByClassName(direction);
+            arrow[0].style.left = x + "px";
+            arrow[0].style.top = y + "px";
+        }
+
+        function directionEvent(direction, event)
+        {
+            const arrow = document.getElementsByClassName(direction);
+            arrow[0].onclick = event;
+        }
+
+        round(canvas.width / 2, canvas.height / 2, 50, "black");
+        text(num, canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#000000"); // ladder count
+
+        arrow(canvas.width / 2 + 80, canvas.height / 2 - 15, "right");
+        arrow(canvas.width / 2 - 90, canvas.height / 2 - 15, "left");
+        directionEvent("right", () => {
+            ctx.clearRect(229, 219, 41, 51);
+            text(++num,canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#000000");
+        })
+        directionEvent("left", () => {
+            ctx.clearRect(229, 219, 41, 51);
+            text(--num,canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#000000");
+        }) // arrow
+
+        rect(166, 384, 180, 50);
+        text("start!", 215, 420, 30);
+        canvas.onclick = (ev) => {
+            if(ev.offsetX >= 166 && ev.offsetX <= 166 + 180
+            && ev.offsetY >= 384 && ev.offsetY <= 384 + 50) {
+                clear();
+                LadderWindow();
+                LadderLine();
+            }
+        }
+
+        canvas.addEventListener("click", (ev) => {
+			console.log(`offsetX: ${ev.offsetX} offsetY: ${ev.offsetY}`);
+		});
+
+        function clear() {
+            document.getElementsByClassName("right")[0].style.display = "none";
+            document.getElementsByClassName("left")[0].style.display = "none";
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function LadderWindow() {
+            const upDiv = document.getElementById("upDiv");
+            const downDiv = document.getElementById("downDiv");
+            let upInput = [];
+            let downInput = [];
+
+            for(let i = 0; i < num; i++) {
+                upInput[i] = document.createElement("input");
+                upInput[i].setAttribute("size", num - 1);
+                upDiv.appendChild(upInput[i]);
+                downInput[i] = document.createElement("input");
+                downInput[i].setAttribute("size", num - 1);
+                downDiv.appendChild(downInput[i]);
+            }
+
+            upInput[0].style.marginLeft = "10px";
+            downInput[0].style.marginLeft = "10px";
+        }
+
+        function LadderLine() {
+            line(41, 60, 41, 425);
+        }
+    </script>
+</body>
+</html>
