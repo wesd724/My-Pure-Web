@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        document.body.appendChild(canvas);
+        canvas.style.backgroundColor = "#8fd4ce";
+        canvas.width = 500;
+        canvas.height = 500;
+        let game = {};
+        console.log();
+        class pipe {
+            constructor(s) {
+                this.x1 = s.x1;
+                this.y1 = s.y1;
+                this.x2 = s.x2;
+                this.y_down = s.y_down;
+                this.y_up = s.y_up;
+            }
+
+            draw() {
+                ctx.fillStyle = "#5c9052";
+                ctx.fillRect(this.x1, this.y1, this.x2, -this.y_down);
+                ctx.fillRect(this.x1, 0, this.x2, this.y_up);
+            }
+        }
+
+        document.addEventListener("keydown", jump);
+        function jump(evt) {
+            if(evt.code == "Space") game.bird.y -= 25;
+        }
+
+        game.pipe = {};
+        game.bird = {
+            x: 30,
+            y: canvas.height / 2,
+            width: 50,
+            height: 50,
+            gravity: 1.5,
+            draw: (x1, y1, x2, y2) => {
+            ctx.fillStyle = "#5c9052";
+            ctx.fillRect(x1, y1, x2, y2);
+            }
+        };
+
+        game.UI = {
+            scoreValue: 0,
+            scoreText: (string, x1, y1) => {
+            ctx.fillStyle = "black";
+            ctx.font = "30px Arial";
+            ctx.fillText(string, x1, y1);
+            }
+        } 
+
+        game.pipe.numbers = [];
+
+        game.pipe.stateRect = {
+            width: 50,
+            height: 100
+        }
+
+        game.pipe.rectPosition = {
+            x1: canvas.width / 2,
+            y1: canvas.height,
+            x2: game.pipe.stateRect.width,
+            y_down: game.pipe.stateRect.height,
+            y_up: game.pipe.stateRect.height
+        }
+
+        game.pipe.numbers.push(new pipe(game.pipe.rectPosition));
+
+        let shortN = game.pipe.numbers;
+        let shortP = game.pipe.rectPosition;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for(let i = 0; i < shortN.length; i++) {
+
+                shortN[i].draw();
+
+                shortN[i].x1 -= 2;
+
+                if(shortN[i].x1 == 210) {
+                    shortP.x1 = canvas.width - game.pipe.stateRect.width;
+                    shortP.y_down = Math.floor(Math.random() * ((canvas.height / 2 - game.bird.height) - (game.bird.height * 2))) + (game.bird.height * 2);
+                    shortP.y_up = Math.floor(Math.random() * ((canvas.height / 2 - game.bird.height) - (game.bird.height * 2))) + (game.bird.height * 2);
+                    shortN.push(new pipe(shortP));
+                }
+                if((game.bird.y + game.bird.height >= canvas.height - shortN[i].y_down &&
+                    game.bird.x + game.bird.width >= shortN[i].x1 &&
+                    game.bird.x <= shortN[i].x1 + game.pipe.stateRect.width) ||
+                   (game.bird.y <= shortN[i].y_up &&
+                    game.bird.x + game.bird.width >= shortN[i].x1 &&
+                    game.bird.x <= shortN[i].x1 + game.pipe.stateRect.width)
+                  )
+                    location.reload();
+            }
+
+            game.bird.draw(game.bird.x, game.bird.y, game.bird.width, game.bird.height);
+
+            if(game.bird.y < canvas.height - game.bird.height)
+                game.bird.y += game.bird.gravity;
+
+            game.UI.scoreText(`score: ${game.UI.scoreValue}`, 50, 50);
+            loop = requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
