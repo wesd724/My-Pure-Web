@@ -13,7 +13,6 @@
         canvas.width = 500;
         canvas.height = 500;
         let game = {};
-        console.log();
         class pipe {
             constructor(s) {
                 this.x1 = s.x1;
@@ -100,6 +99,9 @@
                     game.bird.x <= shortN[i].x1 + game.pipe.stateRect.width)
                   )
                     location.reload();
+                if(shortN[i].x1 + game.pipe.stateRect.width == game.bird.x - 10) {
+                    game.UI.scoreValue++;
+                }
             }
 
             game.bird.draw(game.bird.x, game.bird.y, game.bird.width, game.bird.height);
