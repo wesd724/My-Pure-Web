@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
     <style>
     #canvas {
-        border: 3px solid black;
+        border: 3px solid rgba(0,0,0,1);
     }
     .right {
         position: absolute;
@@ -24,6 +24,7 @@
     }
     input {
         margin-right: 10px;
+        font-size: 15px;
     }
     </style>
 </head>
@@ -34,27 +35,37 @@
     <div id="upDiv"></div>
     <div id="downDiv"></div>
     <script>
+        'use strict'
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
-        let global = {};
 
-        function globalInit() {
-            global.UI = {
-                num: 1,
+        let global = {
+            UI: { num: 2 },
+            status: 0,
+            Event : {
+                Click(ev) {
+                    console.log(`offsetX: ${ev.offsetX} offsetY: ${ev.offsetY}`);
+                }
+            },
+            tracking: { mx: 0, lx: 0, my: 60, ly: 60 },
+            x: [],
+            VerticalYRandomPosition: [],
+            variableList: {
+                x: 0,
+                y: 0,
             }
-        }
-        globalInit();
+        };
 
-        function line(x1, y1, x2, y2, color = "black") {
+        const line = (x1, y1, x2, y2, width = 3, color = "rgba(0,0,0,1)") => {
 			ctx.beginPath();
-			ctx.lineWidth = 3;
-			ctx.moveTo(x1, y1);
-			ctx.lineTo(x2, y2);
+			ctx.lineWidth = width;
+			ctx.moveTo(x1, y1 + 0.5);
+			ctx.lineTo(x2, y2 + 0.5);
 			ctx.strokeStyle = color;
 			ctx.stroke();
         }
         
-        function round(x, y, r, color) {
+        const round = (x, y, r, color) => {
             ctx.beginPath();
             ctx.strokeStyle = color;
             ctx.lineWidth = 3;
@@ -62,48 +73,47 @@
             ctx.stroke();
         }
 
-        function text(string, x, y, fontSize, color = "black") {
-            ctx.beginPath();
+        const text = (string, x, y, fontSize, color = "rgba(0,0,0,1)") => {
             ctx.fillStyle = color;
             ctx.font = fontSize + "px " + "Arial";
             ctx.fillText(string, x, y);
         }
 
-        function rect(x1, y1, x2, y2, color = "black") {
+        const rect = (x1, y1, x2, y2, width = 3, color = "rgba(0,0,0,1)") => {
             ctx.beginPath();
             ctx.fillStyle = color;
             ctx.strokeStyle = color;
-            ctx.lineWidth = 3;
+            ctx.lineWidth = width;
             ctx.strokeRect(x1, y1, x2, y2);
         }
 
-        function arrow(x, y, direction) {
+        const arrow = (x, y, direction) => {
             const arrow = document.getElementsByClassName(direction);
             arrow[0].style.left = x + "px";
             arrow[0].style.top = y + "px";
         }
 
-        function directionEvent(direction, event) {
+        const directionEvent = (direction, event) => {
             const arrow = document.getElementsByClassName(direction);
             arrow[0].onclick = event;
         }
 
-        function startUI() {
-            round(canvas.width / 2, canvas.height / 2, 50, "black");
-            text(global.UI.num, canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#000000"); // ladder count
+        const startUI = () => {
+            round(canvas.width / 2, canvas.height / 2, 50, "rgba(0,0,0,1)");
+            text(global.UI.num, canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#rgba(0,0,0,1)"); // ladder count
 
             arrow(canvas.width / 2 + 80, canvas.height / 2 - 15, "right");
             arrow(canvas.width / 2 - 90, canvas.height / 2 - 15, "left");
             directionEvent("right", () => {
                 if(global.UI.num < 6) {
                     ctx.clearRect(229, 219, 41, 51);
-                    text(++global.UI.num,canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#000000");
+                    text(++global.UI.num,canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#rgba(0,0,0,1)");
                 }
             })
             directionEvent("left", () => {
-                if(global.UI.num > 1) {
+                if(global.UI.num > 2) {
                     ctx.clearRect(229, 219, 41, 51);
-                    text(--global.UI.num,canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#000000");
+                    text(--global.UI.num,canvas.width / 2 - 15, canvas.height / 2 + 15, 50, "#rgba(0,0,0,1)");
                 }
             }) // arrow
 
@@ -116,19 +126,18 @@
                 }
             }
 
-            canvas.addEventListener("click", (ev) => {
-                console.log(`offsetX: ${ev.offsetX} offsetY: ${ev.offsetY}`);
-            });
+            canvas.addEventListener("click", global.Event.Click);
         }
 
-        function clear() {
+        const clear = () => {
             canvas.onclick = "";
+            //canvas.removeEventListener("click", global.Event.Click);
             document.getElementsByClassName("right")[0].style.display = "none";
             document.getElementsByClassName("left")[0].style.display = "none";
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        function LadderWindow() {
+        const LadderWindow = () => {
             const upDiv = document.getElementById("upDiv");
             const downDiv = document.getElementById("downDiv");
             let upInput = [];
@@ -136,33 +145,216 @@
             let num = global.UI.num;
             for(let i = 0; i < num; i++) {
                 upInput[i] = document.createElement("input");
+                upInput[i].classList.add("up");
                 upDiv.appendChild(upInput[i]);
                 downInput[i] = document.createElement("input");
+                downInput[i].classList.add("down");
                 downDiv.appendChild(downInput[i]);
             }
             for(let i = 0; i < num; i++) {
                 upInput[i].style.width = "70px";
                 downInput[i].style.width = "70px";
+                upInput[i].style.height = "15px";
+                downInput[i].style.height = "15px";
             }
             upDiv.style.left = (canvas.width / 2 + 10) - (35 * num + (5 * (num - 1)) + (2.5 * (num - 1))) + "px";
             downDiv.style.left = (canvas.width / 2 + 10) - (35 * num + (5 * (num - 1)) + (2.5 * (num - 1))) + "px";
         }
 
-        function LadderLine() {
-            // for(let i = 0; i < global.UI.num; i++) {
-            //     line(canvas.width / 2, 60, canvas.width / 2, 420);
-            // }
+        const LadderVerticalLine = () => {
+            let input = document.getElementsByTagName("input");
 
-            line(canvas.width + (35 + 5), 60, canvas.width - (35 + 5), 420);
-
-            line(canvas.width / 2 - 35 * 2 - 2.5 * 3, 60, (canvas.width / 2 - 10 * 2) + 35 * 2 - 2.5 * 3, 420);
-            line((canvas.width / 2 - 35 * 1) + 35 * 1 - 2.5 * 2, 60, (canvas.width / 2 - 10 * 2) + 35 * 2 - 2.5 * 3, 420);
+            for(let i = 0; i < global.UI.num; i++) {
+                global.x[i] = window.pageXOffset + Math.floor(input[i].getBoundingClientRect().left) + 25;
+                line(global.x[i], 60, global.x[i], 423, 1);
+            }
         }
 
-        function inGame() {
+        const LadderUI = () => {
+            rect(342, 455, 100, 25);
+            text("SAVE", 365, 475, 20);
+            canvas.onclick = (ev) => {
+                if(ev.offsetX >= 342 && ev.offsetX <= 342 + 100
+                && ev.offsetY >= 455 && ev.offsetY <= 455 + 25) {
+                    boxDraw();
+                }
+            }
+        }
+
+        const boxDraw = () => {
+            ctx.clearRect(340, 450, 110, 50);
+
+            let up_i = document.getElementsByClassName("up");
+            let down_i = document.getElementsByClassName("down");
+
+            canvas.onclick = "";
+            text("any box click", 186, 475, 25);
+
+            document.getElementById("upDiv").style.visibility = "hidden";
+            document.getElementById("downDiv").style.visibility = "hidden";
+
+            for(let i = 0; i < global.UI.num; i++) {
+                rect(global.x[i] - 35, 42, 70.5, 18.5, 1, "rgba(0,0,0,1)");
+                rect(global.x[i] - 35, 424, 70.5, 18.5, 1, "rgba(0,0,0,1)");
+                text(up_i[i].value, global.x[i] - 32, 57, 15);
+                text(down_i[i].value, global.x[i] - 32, 438, 15);
+            }
+            LadderHorizontalLine();
+        }
+
+        const LadderHorizontalLine = () => {
+            
+            let randomElement;
+            let number = Math.floor(Math.random() * 4) + 1; // 1 ~ 4
+
+            while(global.VerticalYRandomPosition.length < global.UI.num * 4) {
+                randomElement = Math.floor(Math.random() * (400 - 85)) + 85;
+                global.VerticalYRandomPosition.push(randomElement);
+                global.VerticalYRandomPosition = [...new Set(global.VerticalYRandomPosition)]; // Check Duplicate Array, Remove Duplicate Array
+            }
+            
+
+            for(let i = 0; i < number; i++) {
+                if(global.UI.num == 2) {
+                    line(global.x[0] + 1, global.VerticalYRandomPosition[i], global.x[1] - 1, global.VerticalYRandomPosition[i], 1);
+                    console.log(global.VerticalYRandomPosition[i]);
+                } else if(global.UI.num == 3) {
+                    line(global.x[0], global.VerticalYRandomPosition[i], global.x[1], global.VerticalYRandomPosition[i], 1);
+                    line(global.x[1], global.VerticalYRandomPosition[i + number], global.x[2], global.VerticalYRandomPosition[i + number], 1);
+                } else if(global.UI.num == 4) {
+                    line(global.x[0], global.VerticalYRandomPosition[i], global.x[1], global.VerticalYRandomPosition[i], 1);
+                    line(global.x[1], global.VerticalYRandomPosition[i + number], global.x[2], global.VerticalYRandomPosition[i + number], 1);
+                    line(global.x[2], global.VerticalYRandomPosition[i + number * 2], global.x[3], global.VerticalYRandomPosition[i + number * 2], 1);
+                } else if(global.UI.num == 5) {
+                    line(global.x[0], global.VerticalYRandomPosition[i], global.x[1], global.VerticalYRandomPosition[i], 1);
+                    line(global.x[1], global.VerticalYRandomPosition[i + number], global.x[2], global.VerticalYRandomPosition[i + number], 1);
+                    line(global.x[2], global.VerticalYRandomPosition[i + number * 2], global.x[3], global.VerticalYRandomPosition[i + number * 2], 1);
+                    line(global.x[3], global.VerticalYRandomPosition[i + number * 3], global.x[4], global.VerticalYRandomPosition[i + number * 3], 1);
+                } else if(global.UI.num == 6) {
+                    line(global.x[0], global.VerticalYRandomPosition[i], global.x[1], global.VerticalYRandomPosition[i], 1);
+                    line(global.x[1], global.VerticalYRandomPosition[i + number], global.x[2], global.VerticalYRandomPosition[i + number], 1);
+                    line(global.x[2], global.VerticalYRandomPosition[i + number * 2], global.x[3], global.VerticalYRandomPosition[i + number * 2], 1);
+                    line(global.x[3], global.VerticalYRandomPosition[i + number * 3], global.x[4], global.VerticalYRandomPosition[i + number * 3], 1);
+                    line(global.x[4], global.VerticalYRandomPosition[i + number * 4], global.x[5], global.VerticalYRandomPosition[i + number * 4], 1);
+                }
+            }
+
+            global.VerticalYRandomPosition = global.VerticalYRandomPosition.slice(0, number * (global.UI.num - 1))
+            
+            global.VerticalYRandomPosition.sort((a, b) => {
+                return a - b;
+            })
+
+            ctx.fillStyle = "rgba(0,0,0,1)";
+
+            canvas.onclick = e => {
+                let x = e.offsetX;
+                let y = e.offsetY;
+                console.log(getRGBA(x,y));
+            }
+            console.log(global.VerticalYRandomPosition)
+            canvas.addEventListener("click", trackBackground);
+        }
+
+        const getRGBA = (x, y) => {
+            let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const R = imageData.data[imageData.width * 4 * y + 4 * x]
+            const G = imageData.data[imageData.width * 4 * y + 4 * x + 1]
+            const B = imageData.data[imageData.width * 4 * y + 4 * x + 2]
+            const A = imageData.data[imageData.width * 4 * y + 4 * x + 3]
+            return `rgba(${R}, ${G}, ${B}, ${A})`
+        }
+
+        const trackBackground = () => {
+            canvas.removeEventListener("click", trackBackground);
+
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            ctx.fillRect(0, 29, 497 - 0, 449 - 29);
+            
+            global.tracking.mx = global.x[0];
+            global.tracking.lx = global.x[0];
+
+            setInterval(lineTrack, 1000 / 60);
+            //track(x);
+        }
+
+        const lineTrack = () => {
+
+            // if(getRGBA(global.x[0], global.tracking.ly + 1) == "rgba(170, 170, 170, 192)" && getRGBA(global.x[0] + 1, global.tracking.ly + 1) != "rgba(128, 128, 128, 255)") {
+            //     //console.log(1)
+            //     global.tracking.ly += 1;
+            //     line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+            //     global.tracking.my = global.tracking.ly;
+            //     //console.log(global.tracking.lx, global.tracking.ly)
+            // } else {
+            //     if(global.tracking.lx < global.x[1]) {
+            //         //console.log(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly)
+            //         global.tracking.lx += 1;
+            //         line(global.tracking.mx, global.tracking.my + 1, global.tracking.lx, global.tracking.ly + 1, 1, "yellow");
+            //         global.tracking.mx = global.tracking.lx;
+            //     } else {
+            //         global.tracking.ly += 1;
+            //         line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+            //         global.tracking.my = global.tracking.ly;
+            //     }
+            // }
+
+            // if(getRGBA(global.tracking.lx, global.tracking.ly + 1) == "rgba(170, 170, 170, 192)" && getRGBA(global.tracking.lx + 1, global.tracking.ly + 1) != "rgba(128, 128, 128, 255)" && global.status == 0) {
+            //     //console.log(1)
+            //     global.tracking.ly += 1;
+            //     line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+            //     global.tracking.my = global.tracking.ly;
+            // } else if(global.tracking.lx < global.x[1]) {
+            //         //console.log(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly)
+            //         global.tracking.lx += 1;
+            //         line(global.tracking.mx, global.tracking.my + 1, global.tracking.lx, global.tracking.ly + 1, 1, "yellow");
+            //         global.tracking.mx = global.tracking.lx;
+            //         if(global.tracking.lx == global.x[1] - 1) {
+            //             global.status = 1;
+            //         }
+            //         console.log(global.tracking.lx)
+            // } else if(global.tracking.lx == global.x[1] &&  global.status == 1) {
+            //         console.log(global.tracking.lx)
+            //         global.tracking.ly += 1;
+            //         line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+            //         global.tracking.my = global.tracking.ly;
+            // }
+
+            if(global.tracking.ly < global.VerticalYRandomPosition[global.variableList.y]) {
+                console.log(1)
+                global.tracking.ly += 1;
+                line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+                global.tracking.my = global.tracking.ly;
+                //if(global.tracking.ly == global.VerticalYRandomPosition[global.status]) global.status++;
+            } else if(global.tracking.lx < global.x[1] && global.tracking.ly == global.VerticalYRandomPosition[0]) {
+                console.log(2)
+                //console.log(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly)
+                global.tracking.lx += 1;
+                line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "yellow");
+                global.tracking.mx = global.tracking.lx;
+            } else if(global.tracking.ly < global.VerticalYRandomPosition[1]) {
+                console.log(3)
+                global.tracking.ly += 1;
+                line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+                global.tracking.my = global.tracking.ly;
+            } else if(global.tracking.lx > global.x[0] && global.tracking.ly == global.VerticalYRandomPosition[1] ) {
+                console.log(4)
+                global.tracking.lx -= 1;
+                line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "yellow");
+                global.tracking.mx = global.tracking.lx;
+            } else if(global.tracking.ly >= global.VerticalYRandomPosition[1]) {
+                console.log(5)
+                global.tracking.ly += 1;
+                line(global.tracking.mx, global.tracking.my, global.tracking.lx, global.tracking.ly, 1, "rgba(0, 0, 255, 1)");
+                global.tracking.my = global.tracking.ly;
+            }
+        }
+        
+        const inGame = () => {
             clear();
             LadderWindow();
-            LadderLine();
+            LadderVerticalLine();
+            LadderUI();
         }
 
         startUI();

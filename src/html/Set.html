@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <script>
+                function* makeZip() {
+                    yield "121";
+                    yield "234";
+                }
+                var zip = makeZip();
+                //console.log(zip.next());
+                //console.log(zip.next());
+                zips = new Set(zip);
+                console.log(zips);
+                console.log("\n");
+
+                let arr = [1 ,3 , 4, 5];
+                console.log(...arr);
+                console.log({...arr});
+                console.log([...arr]);
+                console.log("\n");
+
+                console.log(new Set(arr));
+                //console.log({new Set(arr)});
+                console.log([new Set(arr)]);
+                console.log("\n");
+
+                console.log(...new Set(arr));
+                console.log({...new Set(arr)});
+                console.log([...new Set(arr)]);
+                console.log("\n");
+
+                let obj = {3: "asd", "as": 50, 9: 2, "HELLO": () => "GOOD"};
+                //console.log(...obj);
+                console.log({...obj});
+                //console.log([...obj]);
+                //console.log(...new Set(obj));
+                //console.log({...new Set(obj)});
+                //console.log([...new Set(obj)]);
+
+            </script>
+</body>
+</html>
