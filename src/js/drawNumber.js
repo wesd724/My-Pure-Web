@@ -23,7 +23,7 @@
 const out = numbers => {
 	const numberArray = String(numbers).split("");
 	for(let i = 0; i < numberArray.length; i++) {
-		console.log(number[`${numberArray[i]}`]);
+		console.log(number[numberArray[i]]);
 	}
 }
 
