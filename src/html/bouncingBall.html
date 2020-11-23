@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+    <script>
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        document.body.appendChild(canvas);
+
+        canvas.style.backgroundColor = "rgb(23, 114, 137)";
+        canvas.width = 500;
+        canvas.height = 500;
+
+        let global = {
+            status: false,
+            initR: 5,
+            r: 5,
+            dr: 0.3,
+        }
+
+        const ball = (x, y, r, color = "#000") => {
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.arc(x, y, r, 0, Math.PI * 2, false);
+            ctx.fill();
+        }
+        canvas.addEventListener("mousedown", (e) => {
+           status = setInterval(draw, 1000 / 60, e);
+        })
+        canvas.addEventListener("mouseup", () => {
+            clearInterval(status);
+            global.r = global.initR;
+        })
+
+        const draw = (ep) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ball(ep.offsetX, ep.offsetY, global.r);
+            global.r += global.dr;
+        }
+    </script>
+</body>
+</html>
