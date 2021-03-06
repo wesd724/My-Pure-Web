@@ -7,6 +7,7 @@
 </head>
 <body>
     <script>
+		'use strict'
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         document.body.appendChild(canvas);
@@ -16,31 +17,59 @@
         canvas.height = 500;
 
         let global = {
-            status: false,
-            initR: 5,
-            r: 5,
-            dr: 0.3,
+			i: -1,
+            setBallAnimation: false,
+			fallingBallAnimation: false,
+            initialRadius: 5,
+            deltaRadius: 0.3,
+			deltaY: 1,
+			ball: [],
         }
-
-        const ball = (x, y, r, color = "#000") => {
-            ctx.beginPath();
-            ctx.fillStyle = color;
-            ctx.arc(x, y, r, 0, Math.PI * 2, false);
-            ctx.fill();
-        }
+		
+		class Ball {
+			constructor(x, y, r) {
+				this.x = x;
+				this.y = y;
+				this.r = r;
+			}
+			draw(color = "#000") {
+				ctx.beginPath();
+				ctx.fillStyle = color;
+				ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
+				ctx.fill();
+			}
+			move() {
+				this.y = this.y + global.deltaY;
+				return this;
+			}
+			increase() {
+				this.r = this.r + global.deltaRadius;
+				return this;
+			}
+		}
+		
         canvas.addEventListener("mousedown", (e) => {
-           status = setInterval(draw, 1000 / 60, e);
+		   clearInterval(global.fallingBallAnimation);
+		   global.i = global.i + 1;
+		   global.ball.push(new Ball(e.offsetX, e.offsetY, global.initialRadius));
+           global.setBallAnimation = setInterval(setBall, 1000 / 60);
+
+		   console.log(global.ball);
         })
         canvas.addEventListener("mouseup", () => {
-            clearInterval(status);
-            global.r = global.initR;
+            clearInterval(global.setBallAnimation);
+			global.fallingBallAnimation = setInterval(fallingBall, 1000 / 60);
         })
 
-        const draw = (ep) => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ball(ep.offsetX, ep.offsetY, global.r);
-            global.r += global.dr;
+        const setBall = () => {
+			//ctx.clearRect(0, 0, canvas.width, canvas.height);
+            global.ball[global.i].increase().draw();
         }
+		
+		const fallingBall = () => {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			global.ball[global.i].move().draw();
+		}
     </script>
 </body>
 </html>
