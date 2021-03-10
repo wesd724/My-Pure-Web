@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
+
 <body>
-    <script>
+	<script>
 		'use strict'
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        document.body.appendChild(canvas);
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		document.body.appendChild(canvas);
 
-        canvas.style.backgroundColor = "rgb(23, 114, 137)";
-        canvas.width = 500;
-        canvas.height = 500;
+		canvas.style.backgroundColor = "rgb(23, 114, 137)";
+		canvas.width = 500;
+		canvas.height = 500;
 
-        let global = {
+		let global = {
 			i: -1,
-            setBallAnimation: false,
-			fallingBallAnimation: false,
-            initialRadius: 5,
-            deltaRadius: 0.3,
+			setBallAnimation: [],
+			setBallAnimationFrame: false,
+			fallingBallAnimation: [],
+			fallingBallAnimationFrame: false,
+			initialRadius: 5,
+			deltaRadius: 0.5,
 			deltaY: 1,
 			ball: [],
-        }
-		
+		}
+
 		class Ball {
 			constructor(x, y, r) {
 				this.x = x;
@@ -38,7 +42,7 @@
 				ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
 				ctx.fill();
 			}
-			move() {
+			fall() {
 				this.y = this.y + global.deltaY;
 				return this;
 			}
@@ -47,29 +51,44 @@
 				return this;
 			}
 		}
-		
-        canvas.addEventListener("mousedown", (e) => {
-		   clearInterval(global.fallingBallAnimation);
-		   global.i = global.i + 1;
-		   global.ball.push(new Ball(e.offsetX, e.offsetY, global.initialRadius));
-           global.setBallAnimation = setInterval(setBall, 1000 / 60);
 
-		   console.log(global.ball);
-        })
-        canvas.addEventListener("mouseup", () => {
-            clearInterval(global.setBallAnimation);
-			global.fallingBallAnimation = setInterval(fallingBall, 1000 / 60);
-        })
+		canvas.addEventListener("mousedown", (e) => {
+			if(global.i != -1) clearInterval(global.fallingBallAnimationFrame);
+			global.i = global.i + 1;
 
-        const setBall = () => {
-			//ctx.clearRect(0, 0, canvas.width, canvas.height);
-            global.ball[global.i].increase().draw();
-        }
-		
+			global.fallingBallAnimation[global.i] = () => {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				global.ball[global.i].fall().draw();
+				console.log(1)
+			}
+
+			global.setBallAnimation[global.i] = () => {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				global.ball[global.i].increase().draw();
+			}
+
+			global.ball.push(new Ball(e.offsetX, e.offsetY, global.initialRadius));
+			global.setBallAnimationFrame = setInterval(global.setBallAnimation[global.i], 1000 / 60);
+
+			console.log(global.ball);
+		})
+		canvas.addEventListener("mouseup", () => {
+			clearInterval(global.setBallAnimationFrame);
+			global.fallingBallAnimationFrame = setInterval(global.fallingBallAnimation[global.i], 1000 / 60);
+		})
+
+
+		const setBall = () => {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			global.ball[global.i].increase().draw();
+		}
+
 		const fallingBall = () => {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			global.ball[global.i].move().draw();
+			global.ball[global.i].fall().draw();
+			console.log(1)
 		}
-    </script>
+	</script>
 </body>
+
 </html>
